@@ -87,13 +87,17 @@ export async function analize(urlString: string) {
   );
   */
   return {
-    phoneNumbers: uniq(phoneNumbers),
-    addresses: uniq(addresses),
-    linkUrls: uniq(linkUrls),
-    cssUrls: uniqCSSURLs,
-    jsUrls: uniqJsUrls,
-    imageUrls: uniq(imageUrls),
-    mailAddresses: uniq(mailAddresses),
+    infromations: {
+      phoneNumbers: uniq(phoneNumbers),
+      addresses: uniq(addresses),
+      mailAddresses: uniq(mailAddresses),
+    },
+    resources: {
+      linkUrls: uniq(linkUrls),
+      cssUrls: uniqCSSURLs,
+      jsUrls: uniqJsUrls,
+      imageUrls: uniq(imageUrls),
+    },
   };
 }
 
@@ -106,8 +110,6 @@ function scrapeCSSURL(text: string, rootUrl: string): string[] {
       allBgUrls.push(normalizeURL(bgUrl, rootUrl));
     }
   }
-  console.log({ rootUrl, bgCSSUrls, allBgUrls });
-
   return allBgUrls;
 }
 

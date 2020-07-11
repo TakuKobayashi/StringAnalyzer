@@ -1,0 +1,26 @@
+swagger: "2.0"
+info:
+  description: "HTMLAnalizeApi"
+  version: "0.1.0"
+  title: "HTMLAnalizeApi"
+host: "qv2p534cl3.execute-api.ap-northeast-1.amazonaws.com"
+basePath: "/dev"
+schemes:
+- "https"
+paths:
+  /wordcloud:
+    get:
+      summary: "Wordcloud画像を生成するAPI"
+      description: "wordcloud画像を生成するAPI"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "url"
+        in: "query"
+        description: "websiteのURL"
+        required: true
+      responses:
+        200:
+          description: "successful"
+          schema:
+            type: "object"

@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
   res.json({ hello: 'world' });
 });
 
-app.get('/analizer', async (req, res) => {
+app.get('/analize', async (req, res) => {
   const resultObject = {};
   const urls = req.query.url ? [].concat.apply([], [req.query.url]) : [];
   for (const url of urls) {

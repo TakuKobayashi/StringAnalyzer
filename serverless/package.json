@@ -1,10 +1,11 @@
 {
-  "name": "html-analizer",
+  "name": "html-analize-api",
   "version": "1.0.0",
   "description": "Serverless webpack example using Typescript",
   "main": "handler.js",
   "scripts": {
     "format": "prettier --config .prettierrc --write 'src/**/*.{ts,js}'",
+    "swagger:build": "redoc-cli bundle swagger.yml -o ./build/apidocs/index.html",
     "serverless": "serverless"
   },
   "dependencies": {
@@ -29,6 +30,8 @@
     "@types/node": "^14.0.19",
     "fork-ts-checker-webpack-plugin": "^3.0.1",
     "prettier": "^2.0.5",
+    "redoc": "^2.0.0-rc.31",
+    "redoc-cli": "^0.9.8",
     "serverless": "^1.74.1",
     "serverless-offline": "^6.4.0",
     "serverless-webpack": "^5.2.0",
