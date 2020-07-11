@@ -119,6 +119,8 @@ export async function analize(urlString: string) {
       });
   });
 
+  const embedJsons = scrapeEmbedingJson(allHTML);
+
   return {
     infromations: {
       phoneNumbers: uniq(phoneNumbers),
@@ -133,7 +135,26 @@ export async function analize(urlString: string) {
       videoUrls: uniq(videoUrls),
       audioUrls: uniq(audioUrls),
     },
+    embeds: {
+      jsons: embedJsons,
+    },
   };
+}
+
+function scrapeEmbedingJson(text: string): any[] {
+  const parsedJsons: any[] = [];
+  const jsonObjectRegexpString = '\\{.*\\:.*\\}';
+  const jsonArrayRegexpString = '\\[.*\\]';
+  const candidateJsonStrings = text.match(new RegExp('(' + [jsonObjectRegexpString, jsonArrayRegexpString].join('|') + ')', 'g'))
+  for(const candidateJsonString of candidateJsonStrings){
+    try {
+      const json = JSON.parse(candidateJsonString);
+      parsedJsons.push(json);
+    } catch (error) {
+      continue;
+    }
+  }
+  return parsedJsons;
 }
 
 function scrapeCSSURL(text: string, rootUrl: string): string[] {
