@@ -2,15 +2,28 @@ import axios from 'axios';
 import { isURL, normalizeURL } from './util';
 import cheerio, { CheerioStatic } from 'cheerio';
 import { uniq, concat, difference } from 'lodash';
-import { phoneNumberRegExp, japanAddressRegExp, symbolList, urlComponentString } from './regexp-components';
+import {
+  phoneNumberRegExp,
+  japanAddressRegExp,
+  symbolList,
+  urlComponentString,
+  audioFileExtensions,
+  videoFileExtensions,
+  compressedFileExtensions,
+  imageFileExtensions,
+  pdfFileExtensions,
+  threedModelFileExtensions,
+  fontFileExtensions,
+} from './regexp-components';
 const addressableUrl = require('url');
+const path = require('path');
 
 export async function analize(urlString: string) {
   const rootUrl = addressableUrl.parse(urlString);
   const $ = await loadAndParseHTMLfromCheerio(rootUrl.href);
   const trimedText = $.text().trim();
   const phoneNumbers = trimedText.match(phoneNumberRegExp('g'));
-  const linkUrls = [];
+  const orgLinkUrls = [];
   const mailAddresses = [];
   $('a').each((i, elem) => {
     const aTag = $(elem).attr() || {};
@@ -20,7 +33,7 @@ export async function analize(urlString: string) {
       const aUrl = addressableUrl.parse(normalizeURL(aTag.href, rootUrl.href));
       // 普通のリンク
       if (aUrl.protocol === 'http:' || aUrl.protocol === 'https:') {
-        linkUrls.push(aUrl.href);
+        orgLinkUrls.push(aUrl.href);
         // mailリンク
       } else if (aUrl.protocol === 'mailto:') {
         mailAddresses.push(aUrl.href.replace('mailto:', ''));
@@ -30,7 +43,7 @@ export async function analize(urlString: string) {
         // link先が省略されている場合
       } else {
         const fullUrl = rootUrl.href + aUrl.href;
-        linkUrls.push(fullUrl);
+        orgLinkUrls.push(fullUrl);
       }
     }
   });
@@ -58,36 +71,37 @@ export async function analize(urlString: string) {
       cssUrls.push(normalizeURL(cssAttr.href, rootUrl.href));
     }
   });
-  const uniqCSSURLs = uniq(cssUrls);
   $('script').each((i, elem) => {
     const jsSrc = $(elem).attr() || {};
     if (jsSrc.src && jsSrc.src.length > 0 && jsSrc.href != rootUrl.href) {
       jsUrls.push(normalizeURL(jsSrc.src, rootUrl.href));
     }
   });
+
+  const uniqCSSURLs = uniq(cssUrls);
   const uniqJsUrls = uniq(jsUrls);
+
+  // とりあえずAsset関係は全部この中に突っ込んでいくイメージ
+  const assetFileUrls: string[] = [];
+
+  // Assetじゃないリンク先のURLはこちらへ
+  const linkUrls: string[] = [];
+  // Assetファイルをそれぞれ振り分ける
   const imageUrls: string[] = [];
+  const videoUrls: string[] = [];
+  const audioUrls: string[] = [];
+  const compressedFileUrls: string[] = [];
+  const pdfFileUrls: string[] = [];
+  const threedModelFileUrls: string[] = [];
+  const fontFileUrls: string[] = [];
+  const otherAssetFileUrls: string[] = [];
+
   $('img').each((i, elem) => {
     const imgSrc = $(elem).attr() || {};
     if (imgSrc.src && imgSrc.src.length > 0 && imgSrc.src != rootUrl.href) {
       imageUrls.push(normalizeURL(imgSrc.src, rootUrl.href));
     }
   });
-  imageUrls.push(...scrapeImageURL(allHTML));
-  imageUrls.push(...scrapeCSSURL(allHTML, rootUrl.href));
-  /*
-  await Promise.all(
-    concat(uniqCSSURLs, uniqJsUrls).map(async (textUrl) => {
-      const subUrlImageUrls: string[] = [];
-      const responseText = await loadText(textUrl);
-      subUrlImageUrls.push(...scrapeImageURL(responseText));
-      subUrlImageUrls.push(...scrapeCSSURL(responseText, textUrl));
-      imageUrls.push(...subUrlImageUrls);
-      return subUrlImageUrls;
-    }),
-  );
-  */
-  const videoUrls: string[] = [];
   $('video').each((i, elem) => {
     const videoSrc = $(elem).attr() || {};
     if (videoSrc.src && videoSrc.src.length > 0 && videoSrc.src != rootUrl.href) {
@@ -102,8 +116,6 @@ export async function analize(urlString: string) {
         }
       });
   });
-
-  const audioUrls: string[] = [];
   $('audio').each((i, elem) => {
     const audioSrc = $(elem).attr() || {};
     if (audioSrc.src && audioSrc.src.length > 0 && audioSrc.src != rootUrl.href) {
@@ -119,6 +131,61 @@ export async function analize(urlString: string) {
       });
   });
 
+  assetFileUrls.push(...scrapeAssetsURL(allHTML));
+  assetFileUrls.push(...scrapeCSSURL(allHTML, rootUrl.href));
+  await Promise.all(
+    concat(uniqCSSURLs, uniqJsUrls).map(async (textUrl) => {
+      const subAssetUrls: string[] = [];
+      const responseText = await loadText(textUrl);
+      subAssetUrls.push(...scrapeAssetsURL(responseText));
+      subAssetUrls.push(...scrapeCSSURL(responseText, textUrl));
+      assetFileUrls.push(...subAssetUrls);
+      return subAssetUrls;
+    }),
+  );
+  // assetFileを振り分ける
+  for (const assetFileUrl of assetFileUrls) {
+    const cleanFilePath = assetFileUrl.replace(/[?#].*/g, '');
+    if (imageFileExtensions.includes(path.extname(cleanFilePath))) {
+      imageUrls.push(assetFileUrl);
+    } else if (videoFileExtensions.includes(path.extname(cleanFilePath))) {
+      videoUrls.push(assetFileUrl);
+    } else if (audioFileExtensions.includes(path.extname(cleanFilePath))) {
+      audioUrls.push(assetFileUrl);
+    } else if (compressedFileExtensions.includes(path.extname(cleanFilePath))) {
+      compressedFileUrls.push(assetFileUrl);
+    } else if (pdfFileExtensions.includes(path.extname(cleanFilePath))) {
+      pdfFileUrls.push(assetFileUrl);
+    } else if (threedModelFileExtensions.includes(path.extname(cleanFilePath))) {
+      threedModelFileUrls.push(assetFileUrl);
+    } else if (fontFileExtensions.includes(path.extname(cleanFilePath))) {
+      fontFileUrls.push(assetFileUrl);
+    } else {
+      otherAssetFileUrls.push(assetFileUrl);
+    }
+  }
+
+  for (const orgLinkUrl of orgLinkUrls) {
+    const cleanFilePath = orgLinkUrl.replace(/[?#].*/g, '');
+    if (imageFileExtensions.includes(path.extname(cleanFilePath))) {
+      imageUrls.push(orgLinkUrl);
+    } else if (videoFileExtensions.includes(path.extname(cleanFilePath))) {
+      videoUrls.push(orgLinkUrl);
+    } else if (audioFileExtensions.includes(path.extname(cleanFilePath))) {
+      audioUrls.push(orgLinkUrl);
+    } else if (compressedFileExtensions.includes(path.extname(cleanFilePath))) {
+      compressedFileUrls.push(orgLinkUrl);
+    } else if (pdfFileExtensions.includes(path.extname(cleanFilePath))) {
+      pdfFileUrls.push(orgLinkUrl);
+    } else if (threedModelFileExtensions.includes(path.extname(cleanFilePath))) {
+      threedModelFileUrls.push(orgLinkUrl);
+    } else if (fontFileExtensions.includes(path.extname(cleanFilePath))) {
+      fontFileUrls.push(orgLinkUrl);
+    } else {
+      linkUrls.push(orgLinkUrl);
+    }
+  }
+
   const embedJsons = scrapeEmbedingJson(allHTML);
 
   return {
@@ -127,13 +194,18 @@ export async function analize(urlString: string) {
       addresses: uniq(addresses),
       mailAddresses: uniq(mailAddresses),
     },
-    resources: {
+    assets: {
       linkUrls: uniq(linkUrls),
       cssUrls: uniqCSSURLs,
       jsUrls: uniqJsUrls,
       imageUrls: uniq(imageUrls),
       videoUrls: uniq(videoUrls),
       audioUrls: uniq(audioUrls),
+      compressedFileUrls: uniq(compressedFileUrls),
+      pdfFileUrls: uniq(pdfFileUrls),
+      threedModelFileUrls: uniq(threedModelFileUrls),
+      fontFileUrls: uniq(fontFileUrls),
+      otherAssetFileUrls: uniq(otherAssetFileUrls),
     },
     embeds: {
       jsons: embedJsons,
@@ -145,8 +217,8 @@ function scrapeEmbedingJson(text: string): any[] {
   const parsedJsons: any[] = [];
   const jsonObjectRegexpString = '\\{.*\\:.*\\}';
   const jsonArrayRegexpString = '\\[.*\\]';
-  const candidateJsonStrings = text.match(new RegExp('(' + [jsonObjectRegexpString, jsonArrayRegexpString].join('|') + ')', 'g'))
-  for(const candidateJsonString of candidateJsonStrings){
+  const candidateJsonStrings = text.match(new RegExp('(' + [jsonObjectRegexpString, jsonArrayRegexpString].join('|') + ')', 'g'));
+  for (const candidateJsonString of candidateJsonStrings) {
     try {
       const json = JSON.parse(candidateJsonString);
       parsedJsons.push(json);
@@ -159,10 +231,10 @@ function scrapeEmbedingJson(text: string): any[] {
 
 function scrapeCSSURL(text: string, rootUrl: string): string[] {
   const allBgUrls: string[] = [];
-  const regexp = new RegExp('url(["\']?([' + urlComponentString + ']*)["\']?)', 'g');
+  const regexp = new RegExp('url\\(["\']?([' + urlComponentString + ']*)["\']?\\)', 'g');
   const bgCSSUrls = text.match(regexp) || [];
   for (const bgCSSUrl of bgCSSUrls) {
-    const bgUrl = bgCSSUrl.replace(/(url\(|\)|")/g, '');
+    const bgUrl = bgCSSUrl.replace(/(url\(|\)|"|')/g, '').replace(/;$/g, '');
     if (bgUrl && bgUrl.length > 0 && bgUrl != rootUrl) {
       allBgUrls.push(normalizeURL(bgUrl, rootUrl));
     }
@@ -170,10 +242,23 @@ function scrapeCSSURL(text: string, rootUrl: string): string[] {
   return allBgUrls;
 }
 
-function scrapeImageURL(text: string): string[] {
-  const regexp = new RegExp('https?:\\/\\/[' + urlComponentString + ']+(jpg|jpeg|gif|png)', 'g');
-  const imageUrls: string[] = text.match(regexp) || [];
-  return imageUrls;
+function scrapeAssetsURL(text: string): string[] {
+  const assetFileExtentions = [
+    ...audioFileExtensions,
+    ...videoFileExtensions,
+    ...compressedFileExtensions,
+    ...imageFileExtensions,
+    ...pdfFileExtensions,
+    ...threedModelFileExtensions,
+    ...fontFileExtensions,
+  ].map((ext) => {
+    // .は全て抜く
+    return ext.substr(1);
+  });
+
+  const regexp = new RegExp('https?:\\/\\/[' + urlComponentString + ']+\\.(' + uniq(assetFileExtentions).join('|') + ')', 'g');
+  const assetUrls: string[] = text.match(regexp) || [];
+  return assetUrls;
 }
 
 async function loadAndParseHTMLfromCheerio(url: string): CheerioStatic {

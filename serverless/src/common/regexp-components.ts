@@ -134,252 +134,251 @@ export const symbolList: string[] = [
 
 export const audioFileExtensions: string[] = [
   //https://ja.wikipedia.org/wiki/AIFF
-  ".aiff",
-  ".aif",
-  ".aifc",
-  ".afc",
-  ".mp3",
-  ".wav",
+  '.aiff',
+  '.aif',
+  '.aifc',
+  '.afc',
+  '.mp3',
+  '.wav',
   //https://ja.wikipedia.org/wiki/Vorbis
-  ".ogg",
-  ".oga",
+  '.ogg',
+  '.oga',
   //https://ja.wikipedia.org/wiki/Opus_(%E9%9F%B3%E5%A3%B0%E5%9C%A7%E7%B8%AE)
-  ".opus",
+  '.opus',
   //https://ja.wikipedia.org/wiki/AAC
-  "m2ts",
-  ".m4b",
-  ".aac",
+  'm2ts',
+  '.m4b',
+  '.aac',
   //https://ja.wikipedia.org/wiki/ATRAC
-  ".omg",
-  ".oma",
-  ".aa3",
+  '.omg',
+  '.oma',
+  '.aa3',
   //https://ja.wikipedia.org/wiki/FLAC
-  ".flac",
-  ".fla",
-  ".mpc",
-  ".ape",
-  ".mac",
+  '.flac',
+  '.fla',
+  '.mpc',
+  '.ape',
+  '.mac',
   //https://ja.wikipedia.org/wiki/TTA
-  ".tta",
+  '.tta',
   //https://ja.wikipedia.org/wiki/WavPack
-  ".wv",
+  '.wv',
   //https://ja.wikipedia.org/wiki/La_(%E9%9F%B3%E5%A3%B0%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%83%95%E3%82%A9%E3%83%BC%E3%83%9E%E3%83%83%E3%83%88)
-  ".la",
+  '.la',
   //https://ja.wikipedia.org/wiki/Apple_Lossless
-  ".alac",
-]
+  '.alac',
+];
 
 export const videoFileExtensions: string[] = [
   //https://ja.wikipedia.org/wiki/Audio_Video_Interleave
-  ".avi",
+  '.avi',
   //https://ja.wikipedia.org/wiki/Advanced_Systems_Format
-  ".asf",
-  ".wma",
-  ".wmv",
+  '.asf',
+  '.wma',
+  '.wmv',
   //https://ja.wikipedia.org/wiki/Flash_Video
-  ".flv",
-  ".f4v",
-  ".f4p",
-  ".f4a",
-  ".f4b",
+  '.flv',
+  '.f4v',
+  '.f4p',
+  '.f4a',
+  '.f4b',
   //https://ja.wikipedia.org/wiki/Ogg_Media
-  ".ogm",
+  '.ogm',
   //https://ja.wikipedia.org/wiki/MPEG-1
-  ".dat",
-  ".mpg",
-  ".mpeg",
-  ".m1v",
+  '.dat',
+  '.mpg',
+  '.mpeg',
+  '.m1v',
   //https://ja.wikipedia.org/wiki/MP4
-  ".mp4",
-  ".m4v",
-  ".m4a",
-  ".m4p",
+  '.mp4',
+  '.m4v',
+  '.m4a',
+  '.m4p',
   //https://ja.wikipedia.org/wiki/QuickTime
-  ".mov",
+  '.mov',
   //https://ja.wikipedia.org/wiki/RealVideo
-  ".rm",
-  ".rmvb",
-  ".ram",
+  '.rm',
+  '.rmvb',
+  '.ram',
   //https://ja.wikipedia.org/wiki/XVD
-  ".vg2",
-  ".vgm",
+  '.vg2',
+  '.vgm',
   //https://ja.wikipedia.org/wiki/Matroska
-  ".mkv",
-  ".mka",
-  ".mks",
-  ".mk3d",
+  '.mkv',
+  '.mka',
+  '.mks',
+  '.mk3d',
   //https://ja.wikipedia.org/wiki/3GPP#3GPP%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%83%95%E3%82%A9%E3%83%BC%E3%83%9E%E3%83%83%E3%83%88
-  ".3gp",
+  '.3gp',
   //https://ja.wikipedia.org/wiki/WebM
-  ".webm",
-  ".swf",
-]
+  '.webm',
+  '.swf',
+];
 
 export const compressedFileExtensions: string[] = [
   // https://en.wikipedia.org/wiki/List_of_archive_formats
-  ".zip",
-  ".zipx",
-  ".tgz",
-  ".tar.Z",
-  ".tar.bz2",
-  ".tar.gz",
-  ".tbz2",
-  ".tar",
-  ".7z",
-  ".gz",
-]
+  '.zip',
+  '.zipx',
+  '.tgz',
+  '.tar.Z',
+  '.tar.bz2',
+  '.tar.gz',
+  '.tbz2',
+  '.tar',
+  '.7z',
+  '.gz',
+];
 
 export const imageFileExtensions: string[] = [
-  ".agp",
-  ".ai", //Illustrator
-  ".cdr",
-  ".cpc",
-  ".cpi",
-  ".eps",
-  ".eri",
-  ".gif", //GIF
-  ".iff",
-  ".ilbm",
-  ".lbm",
-  ".ima",
-  ".jpg", //JPEG
-  ".jpeg", //JPEG
-  ".jxr",
-  ".hdp",
-  ".wdp",
-  ".jp2",
-  ".j2c",
-  ".mki",
-  ".mag",
-  ".pi",
-  ".pict",
-  ".pic",
-  ".pct",
-  ".png", //PNG
-  ".psd", //PSD
-  ".psb", //PSD
-  ".pdd", //PSD
-  ".psp",
-  ".svg", //SVG
-  ".tga", //TGA 3Dモデルのテクスチャーとかによく使われる
-  ".tpic", //TGA 3Dモデルのテクスチャーとかによく使われる
-  ".webp",
-  ".bmp", //BMP
-]
+  '.agp',
+  '.ai', //Illustrator
+  '.cdr',
+  '.cpc',
+  '.cpi',
+  '.eps',
+  '.eri',
+  '.gif', //GIF
+  '.iff',
+  '.ilbm',
+  '.lbm',
+  '.ima',
+  '.jpg', //JPEG
+  '.jpeg', //JPEG
+  '.jxr',
+  '.hdp',
+  '.wdp',
+  '.jp2',
+  '.j2c',
+  '.mki',
+  '.mag',
+  '.pi',
+  '.pict',
+  '.pic',
+  '.pct',
+  '.png', //PNG
+  '.psd', //PSD
+  '.psb', //PSD
+  '.pdd', //PSD
+  '.psp',
+  '.svg', //SVG
+  '.tga', //TGA 3Dモデルのテクスチャーとかによく使われる
+  '.tpic', //TGA 3Dモデルのテクスチャーとかによく使われる
+  '.webp',
+  '.bmp', //BMP
+];
 
-export const pdfFileExtensions: string[] = [
-  ".pdf",
-]
+export const pdfFileExtensions: string[] = ['.pdf'];
 
 export const threedModelFileExtensions: string[] = [
   // http://edutechwiki.unige.ch/en/3D_file_format
-  ".vrm",
-  ".gltf",
-  ".fbx",
+  '.vrm',
+  '.gltf',
+  '.fbx',
   // 3D Studio Max
-  ".3ds",
-  ".max",
+  '.3ds',
+  '.max',
   // AC3D
-  ".ac",
+  '.ac',
   // Apple 3DMF
-  ".3dm",
-  ".3dmf",
+  '.3dm',
+  '.3dmf',
   // Autocad
-  ".dwg",
+  '.dwg',
   // Blender
-  ".blend",
+  '.blend',
   // Caligari Object
-  ".cob",
+  '.cob',
   // Collada
-  ".dae",
+  '.dae',
   // Dassault
-  ".3dxml",
+  '.3dxml',
   // DEC Object File Format
-  ".off",
+  '.off',
   // DirectX 3D Model
-  ".x",
+  '.x',
   // Drawing Interchange Format
-  ".dxf",
+  '.dxf',
   // DXF Extensible 3D
   // X3D Extensible 3D
-  ".x3d",
+  '.x3d',
   // Form-Z
-  ".fmz",
+  '.fmz',
   // GameExchange2-Mirai
-  ".gof",
+  '.gof',
   // Google Earth
-  ".kml",
-  ".kmz",
+  '.kml',
+  '.kmz',
   // HOOPS HSF
-  ".hsf",
+  '.hsf',
   // LightWave
-  ".lwo",
-  ".lws",
+  '.lwo',
+  '.lws',
   // Lightwave Motion
-  ".mot",
+  '.mot',
   // MicroStation
-  ".dgn",
+  '.dgn',
   // Nendo
-  ".ndo",
+  '.ndo',
   // OBJ
   // VideoScape
   // Wavefront
-  ".obj",
+  '.obj',
   // Okino Transfer File Format
-  ".bdf",
+  '.bdf',
   // OpenFlight
-  ".flt",
+  '.flt',
   // Openinventor
-  ".iv",
+  '.iv',
   // Pro Engineer
-  ".slp",
+  '.slp',
   // Radiosity
-  ".radio",
+  '.radio',
   // Raw Faces
-  ".raw",
+  '.raw',
   // RenderWare Object
-  ".rwx",
+  '.rwx',
   // Revit
-  ".rvt",
+  '.rvt',
   // Sketchup
-  ".skp",
+  '.skp',
   // Softimage XSI
-  ".xsi",
+  '.xsi',
   // Stanford PLY
-  ".ply",
+  '.ply',
   // STEP
-  ".stp",
+  '.stp',
   // Stereo Litography
-  ".stl",
+  '.stl',
   // Strata StudioPro
-  ".vis",
+  '.vis',
   // TrueSpace
-  ".scn",
+  '.scn',
   // Universal
-  ".u3d",
+  '.u3d',
   // VectorWorks
-  ".mcd",
+  '.mcd',
   // Viewpoint
-  ".vet",
+  '.vet',
   // VRML
-  ".wrl",
+  '.wrl',
   // Wings 3D
-  ".wings",
+  '.wings',
   // Xfig Export
-  ".fig",
+  '.fig',
   // MMD
-  ".pmx",
+  '.pmx',
   // MMD Motion
-  ".vmd",
-]
+  '.vmd',
+];
 
 export const fontFileExtensions: string[] = [
   // https://www.suttle-straus.com/blog/a-simple-guide-to-font-file-types
-  ".tif", //".tif", #tif 文字とかフォントとか
-  ".ttf",
-  ".otf",
-  ".woff",
-]
+  '.tif', //".tif", #tif 文字とかフォントとか
+  '.ttf',
+  '.otf',
+  '.woff',
+  '.woff2',
+];
 
 export const urlComponentString: string = "\\w!\\?/\\+\\-_~=;\\.,\\*&@#\\$%\\(\\)'\\[\\]";
 
