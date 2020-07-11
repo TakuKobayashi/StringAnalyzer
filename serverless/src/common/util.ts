@@ -21,7 +21,7 @@ export function normalizeURL(srcURLString: string, orgURLString: string): string
     } else if (aUrl.href.startsWith('../')) {
       fullUrl = path.dirname(path.dirname(rootUrl.href)) + '/' + aUrl.href.replace('../', '');
     } else {
-      fullUrl = path.dirname(rootUrl.href) + '/' + aUrl.href;
+      fullUrl = rootUrl.href + aUrl.href;
     }
     return fullUrl;
   } else {
