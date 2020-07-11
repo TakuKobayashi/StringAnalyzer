@@ -2,7 +2,7 @@ import axios from 'axios';
 import { isURL, normalizeURL } from './util';
 import cheerio, { CheerioStatic } from 'cheerio';
 import { uniq, concat, difference } from 'lodash';
-import { phoneNumberRegExp, japanAddressRegExp, symbolList } from './regexp-components';
+import { phoneNumberRegExp, japanAddressRegExp, symbolList, urlComponentString } from './regexp-components';
 const addressableUrl = require('url');
 
 export async function analize(urlString: string) {
@@ -15,7 +15,8 @@ export async function analize(urlString: string) {
   $('a').each((i, elem) => {
     const aTag = $(elem).attr() || {};
     // javascript:void(0) みたいなリンクは弾く
-    if (aTag.href && !aTag.href.startsWith('javascript:')) {
+    // Jump系リンクも弾く
+    if (aTag.href && !aTag.href.startsWith('javascript:') && !aTag.href.startsWith('#')) {
       const aUrl = addressableUrl.parse(normalizeURL(aTag.href, rootUrl.href));
       // 普通のリンク
       if (aUrl.protocol === 'http:' || aUrl.protocol === 'https:') {
@@ -86,6 +87,38 @@ export async function analize(urlString: string) {
     }),
   );
   */
+  const videoUrls: string[] = [];
+  $('video').each((i, elem) => {
+    const videoSrc = $(elem).attr() || {};
+    if (videoSrc.src && videoSrc.src.length > 0 && videoSrc.src != rootUrl.href) {
+      videoUrls.push(normalizeURL(videoSrc.src, rootUrl.href));
+    }
+    $(elem)
+      .find('source')
+      .each((i, sourceElem) => {
+        const videoSourceSrc = $(sourceElem).attr() || {};
+        if (videoSourceSrc.src && videoSourceSrc.src.length > 0 && videoSourceSrc.src != rootUrl.href) {
+          videoUrls.push(normalizeURL(videoSourceSrc.src, rootUrl.href));
+        }
+      });
+  });
+
+  const audioUrls: string[] = [];
+  $('audio').each((i, elem) => {
+    const audioSrc = $(elem).attr() || {};
+    if (audioSrc.src && audioSrc.src.length > 0 && audioSrc.src != rootUrl.href) {
+      audioUrls.push(normalizeURL(audioSrc.src, rootUrl.href));
+    }
+    $(elem)
+      .find('source')
+      .each((i, sourceElem) => {
+        const audioSourceSrc = $(sourceElem).attr() || {};
+        if (audioSourceSrc.src && audioSourceSrc.src.length > 0 && audioSourceSrc.src != rootUrl.href) {
+          audioUrls.push(normalizeURL(audioSourceSrc.src, rootUrl.href));
+        }
+      });
+  });
+
   return {
     infromations: {
       phoneNumbers: uniq(phoneNumbers),
@@ -97,13 +130,16 @@ export async function analize(urlString: string) {
       cssUrls: uniqCSSURLs,
       jsUrls: uniqJsUrls,
       imageUrls: uniq(imageUrls),
+      videoUrls: uniq(videoUrls),
+      audioUrls: uniq(audioUrls),
     },
   };
 }
 
 function scrapeCSSURL(text: string, rootUrl: string): string[] {
   const allBgUrls: string[] = [];
-  const bgCSSUrls = text.match(/url\(["']?([\w!\?/\+\-_~=;\.,\*&@#\$%\(\)'\[\]]*)["']?\)/g) || [];
+  const regexp = new RegExp('url(["\']?([' + urlComponentString + ']*)["\']?)', 'g');
+  const bgCSSUrls = text.match(regexp) || [];
   for (const bgCSSUrl of bgCSSUrls) {
     const bgUrl = bgCSSUrl.replace(/(url\(|\)|")/g, '');
     if (bgUrl && bgUrl.length > 0 && bgUrl != rootUrl) {
@@ -114,7 +150,8 @@ function scrapeCSSURL(text: string, rootUrl: string): string[] {
 }
 
 function scrapeImageURL(text: string): string[] {
-  const imageUrls: string[] = text.match(/https?:\/\/[\w!\?/\+\-_~=;\.,\*&@#\$%\(\)'\[\]]+(jpg|jpeg|gif|png)/g) || [];
+  const regexp = new RegExp('https?:\\/\\/[' + urlComponentString + ']+(jpg|jpeg|gif|png)', 'g');
+  const imageUrls: string[] = text.match(regexp) || [];
   return imageUrls;
 }
 

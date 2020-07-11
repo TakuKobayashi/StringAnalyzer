@@ -132,6 +132,8 @@ export const symbolList: string[] = [
   ']',
 ];
 
+export const urlComponentString: string = "\\w!\\?/\\+\\-_~=;\\.,\\*&@#\\$%\\(\\)'\\[\\]";
+
 export function japanAddressRegExp(flags: string = ''): RegExp {
   return new RegExp(
     '(' +
