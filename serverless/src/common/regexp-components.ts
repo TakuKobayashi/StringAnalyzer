@@ -132,6 +132,255 @@ export const symbolList: string[] = [
   ']',
 ];
 
+export const audioFileExtensions: string[] = [
+  //https://ja.wikipedia.org/wiki/AIFF
+  ".aiff",
+  ".aif",
+  ".aifc",
+  ".afc",
+  ".mp3",
+  ".wav",
+  //https://ja.wikipedia.org/wiki/Vorbis
+  ".ogg",
+  ".oga",
+  //https://ja.wikipedia.org/wiki/Opus_(%E9%9F%B3%E5%A3%B0%E5%9C%A7%E7%B8%AE)
+  ".opus",
+  //https://ja.wikipedia.org/wiki/AAC
+  "m2ts",
+  ".m4b",
+  ".aac",
+  //https://ja.wikipedia.org/wiki/ATRAC
+  ".omg",
+  ".oma",
+  ".aa3",
+  //https://ja.wikipedia.org/wiki/FLAC
+  ".flac",
+  ".fla",
+  ".mpc",
+  ".ape",
+  ".mac",
+  //https://ja.wikipedia.org/wiki/TTA
+  ".tta",
+  //https://ja.wikipedia.org/wiki/WavPack
+  ".wv",
+  //https://ja.wikipedia.org/wiki/La_(%E9%9F%B3%E5%A3%B0%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%83%95%E3%82%A9%E3%83%BC%E3%83%9E%E3%83%83%E3%83%88)
+  ".la",
+  //https://ja.wikipedia.org/wiki/Apple_Lossless
+  ".alac",
+]
+
+export const videoFileExtensions: string[] = [
+  //https://ja.wikipedia.org/wiki/Audio_Video_Interleave
+  ".avi",
+  //https://ja.wikipedia.org/wiki/Advanced_Systems_Format
+  ".asf",
+  ".wma",
+  ".wmv",
+  //https://ja.wikipedia.org/wiki/Flash_Video
+  ".flv",
+  ".f4v",
+  ".f4p",
+  ".f4a",
+  ".f4b",
+  //https://ja.wikipedia.org/wiki/Ogg_Media
+  ".ogm",
+  //https://ja.wikipedia.org/wiki/MPEG-1
+  ".dat",
+  ".mpg",
+  ".mpeg",
+  ".m1v",
+  //https://ja.wikipedia.org/wiki/MP4
+  ".mp4",
+  ".m4v",
+  ".m4a",
+  ".m4p",
+  //https://ja.wikipedia.org/wiki/QuickTime
+  ".mov",
+  //https://ja.wikipedia.org/wiki/RealVideo
+  ".rm",
+  ".rmvb",
+  ".ram",
+  //https://ja.wikipedia.org/wiki/XVD
+  ".vg2",
+  ".vgm",
+  //https://ja.wikipedia.org/wiki/Matroska
+  ".mkv",
+  ".mka",
+  ".mks",
+  ".mk3d",
+  //https://ja.wikipedia.org/wiki/3GPP#3GPP%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%83%95%E3%82%A9%E3%83%BC%E3%83%9E%E3%83%83%E3%83%88
+  ".3gp",
+  //https://ja.wikipedia.org/wiki/WebM
+  ".webm",
+  ".swf",
+]
+
+export const compressedFileExtensions: string[] = [
+  // https://en.wikipedia.org/wiki/List_of_archive_formats
+  ".zip",
+  ".zipx",
+  ".tgz",
+  ".tar.Z",
+  ".tar.bz2",
+  ".tar.gz",
+  ".tbz2",
+  ".tar",
+  ".7z",
+  ".gz",
+]
+
+export const imageFileExtensions: string[] = [
+  ".agp",
+  ".ai", //Illustrator
+  ".cdr",
+  ".cpc",
+  ".cpi",
+  ".eps",
+  ".eri",
+  ".gif", //GIF
+  ".iff",
+  ".ilbm",
+  ".lbm",
+  ".ima",
+  ".jpg", //JPEG
+  ".jpeg", //JPEG
+  ".jxr",
+  ".hdp",
+  ".wdp",
+  ".jp2",
+  ".j2c",
+  ".mki",
+  ".mag",
+  ".pi",
+  ".pict",
+  ".pic",
+  ".pct",
+  ".png", //PNG
+  ".psd", //PSD
+  ".psb", //PSD
+  ".pdd", //PSD
+  ".psp",
+  ".svg", //SVG
+  ".tga", //TGA 3Dモデルのテクスチャーとかによく使われる
+  ".tpic", //TGA 3Dモデルのテクスチャーとかによく使われる
+  ".webp",
+  ".bmp", //BMP
+]
+
+export const pdfFileExtensions: string[] = [
+  ".pdf",
+]
+
+export const threedModelFileExtensions: string[] = [
+  // http://edutechwiki.unige.ch/en/3D_file_format
+  ".vrm",
+  ".gltf",
+  ".fbx",
+  // 3D Studio Max
+  ".3ds",
+  ".max",
+  // AC3D
+  ".ac",
+  // Apple 3DMF
+  ".3dm",
+  ".3dmf",
+  // Autocad
+  ".dwg",
+  // Blender
+  ".blend",
+  // Caligari Object
+  ".cob",
+  // Collada
+  ".dae",
+  // Dassault
+  ".3dxml",
+  // DEC Object File Format
+  ".off",
+  // DirectX 3D Model
+  ".x",
+  // Drawing Interchange Format
+  ".dxf",
+  // DXF Extensible 3D
+  // X3D Extensible 3D
+  ".x3d",
+  // Form-Z
+  ".fmz",
+  // GameExchange2-Mirai
+  ".gof",
+  // Google Earth
+  ".kml",
+  ".kmz",
+  // HOOPS HSF
+  ".hsf",
+  // LightWave
+  ".lwo",
+  ".lws",
+  // Lightwave Motion
+  ".mot",
+  // MicroStation
+  ".dgn",
+  // Nendo
+  ".ndo",
+  // OBJ
+  // VideoScape
+  // Wavefront
+  ".obj",
+  // Okino Transfer File Format
+  ".bdf",
+  // OpenFlight
+  ".flt",
+  // Openinventor
+  ".iv",
+  // Pro Engineer
+  ".slp",
+  // Radiosity
+  ".radio",
+  // Raw Faces
+  ".raw",
+  // RenderWare Object
+  ".rwx",
+  // Revit
+  ".rvt",
+  // Sketchup
+  ".skp",
+  // Softimage XSI
+  ".xsi",
+  // Stanford PLY
+  ".ply",
+  // STEP
+  ".stp",
+  // Stereo Litography
+  ".stl",
+  // Strata StudioPro
+  ".vis",
+  // TrueSpace
+  ".scn",
+  // Universal
+  ".u3d",
+  // VectorWorks
+  ".mcd",
+  // Viewpoint
+  ".vet",
+  // VRML
+  ".wrl",
+  // Wings 3D
+  ".wings",
+  // Xfig Export
+  ".fig",
+  // MMD
+  ".pmx",
+  // MMD Motion
+  ".vmd",
+]
+
+export const fontFileExtensions: string[] = [
+  // https://www.suttle-straus.com/blog/a-simple-guide-to-font-file-types
+  ".tif", //".tif", #tif 文字とかフォントとか
+  ".ttf",
+  ".otf",
+  ".woff",
+]
+
 export const urlComponentString: string = "\\w!\\?/\\+\\-_~=;\\.,\\*&@#\\$%\\(\\)'\\[\\]";
 
 export function japanAddressRegExp(flags: string = ''): RegExp {
