@@ -5,7 +5,7 @@
   "main": "handler.js",
   "scripts": {
     "format": "prettier --config .prettierrc --write 'src/**/*.{ts,js}'",
-    "swagger:build": "redoc-cli bundle swagger.yml -o ./build/apidocs/index.html",
+    "swagger:build": "redoc-cli bundle swagger.yml -o ./build/index.html",
     "serverless": "serverless"
   },
   "dependencies": {
