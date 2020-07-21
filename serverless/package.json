@@ -16,7 +16,7 @@
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "lodash": "^4.17.18",
+    "lodash": "^4.17.19",
     "path": "^0.12.7",
     "source-map-support": "^0.5.10",
     "url": "^0.11.0"
