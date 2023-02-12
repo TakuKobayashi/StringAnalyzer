@@ -1,22 +1,11 @@
-import 'source-map-support/register';
+import { analize } from './libs/html-scraping';
+import awsLambdaFastify from '@fastify/aws-lambda';
+import fastify from 'fastify';
 
-import { APIGatewayEvent, APIGatewayProxyHandler, Context } from 'aws-lambda';
-import * as awsServerlessExpress from 'aws-serverless-express';
-import * as express from 'express';
-import { analize } from './common/html-scraping';
-import axios from 'axios';
+const app = fastify();
 
-const app = express();
-const server = awsServerlessExpress.createServer(app);
-const cors = require('cors');
-const cookieParser = require('cookie-parser');
-
-app.use(cookieParser());
-
-app.use(cors({ origin: true }));
-
-app.get('/', (req, res) => {
-  res.json({ hello: 'world' });
+app.get('/', async (request, reply) => {
+  return { hello: 'world' };
 });
 
 app.get('/analize', async (req, res) => {
@@ -26,9 +15,7 @@ app.get('/analize', async (req, res) => {
     const data = await analize(url);
     resultObject[url] = data;
   }
-  res.json(resultObject);
+  return resultObject;
 });
 
-export const handler: APIGatewayProxyHandler = (event: APIGatewayEvent, context: Context) => {
-  awsServerlessExpress.proxy(server, event, context);
-};
+export const handler = awsLambdaFastify(app);

@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { isURL, normalizeURL } from './util';
-import cheerio, { CheerioStatic } from 'cheerio';
-import { uniq, concat, difference } from 'lodash';
+import { normalizeURL } from './util';
+import { load, CheerioAPI } from 'cheerio';
+import { uniq, concat } from 'lodash';
 import {
   phoneNumberRegExp,
   japanAddressRegExp,
@@ -47,7 +47,7 @@ export async function analize(urlString: string) {
       }
     }
   });
-  const addresses: string = [];
+  const addresses: string[] = [];
   const texts = trimedText.split(/\s/);
   const symbolRegExpList = symbolList.filter((symbol) => symbol != '\\-');
   const sanitizer = new RegExp(symbolRegExpList.join(''), 'g');
@@ -261,12 +261,12 @@ function scrapeAssetsURL(text: string): string[] {
   return assetUrls;
 }
 
-async function loadAndParseHTMLfromCheerio(url: string): CheerioStatic {
+async function loadAndParseHTMLfromCheerio(url: string): Promise<CheerioAPI> {
   const responseText = await loadText(url);
-  return cheerio.load(responseText);
+  return load(responseText);
 }
 
-async function loadText(url: string): string {
+async function loadText(url: string): Promise<string> {
   const response = await axios.get(url);
   if (typeof response.data === 'string') {
     return response.data.normalize('NFKC');
