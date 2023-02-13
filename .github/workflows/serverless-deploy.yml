@@ -19,6 +19,14 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
+    - name: Register .env
+      working-directory: ./serverless
+      env:
+        LINE_BOT_CHANNEL_ACCESSTOKEN: ${{ secrets.LINE_BOT_CHANNEL_ACCESSTOKEN }}
+        LINE_BOT_CHANNEL_SECRET: ${{ secrets.LINE_BOT_CHANNEL_SECRET }}
+      run: |
+        echo "LINE_BOT_CHANNEL_ACCESSTOKEN=${LINE_BOT_CHANNEL_ACCESSTOKEN}" >> ./.env
+        echo "LINE_BOT_CHANNEL_SECRET=${LINE_BOT_CHANNEL_SECRET}" >> ./.env
     - name: yarn install
       working-directory: ./serverless
       run: yarn install
